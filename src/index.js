@@ -1,12 +1,23 @@
-import React from 'react';
+// import React from 'react';
+import React, { useState } from "react";
+import { nanoid } from "nanoid";
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+const DATA = [
+  { id: "todo-" + nanoid(), name: "Eat", completed: true },
+  { id: "todo-" + nanoid(), name: "Sleep", completed: false },
+  { id: "todo-" + nanoid(), name: "Repeat", completed: true }
+];
+
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App tasks={ DATA } />
   </React.StrictMode>,
   document.getElementById('root')
 );
