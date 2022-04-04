@@ -14,28 +14,85 @@ import Todo from "./components/Todo";
 // and then in the child create a function that calls the parent task passing in a 
 // state value update to update the parent state
 
+// CONST : you can not change the proerties of the const object once declared,
+// but you cah chage the object values.
+// https://www.geeksforgeeks.org/difference-between-var-let-and-const-keywords-in-javascript/
+
+
+
+  //OUTSIDE definitions
+ // This is here bc, its code that will generally never change regardless of all states of the app
+  const FILTER_MAP = {
+    All: () => true,
+    Active: task => !task.completed,
+    Completed: task => task.completed
+  };
+
+  const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+
+
+
+//MAIN 
 function App(props) {
 
   // getting state from passed in props (defined on index.js)(DATA)
   const [tasks, setTasks] = useState(props.tasks);
   const [isEditing, setEditing] = useState(false);
-
+  const [filter, setFilter] = useState('All');
 
   const tasksNoun = tasks.length !== 1 ? 'tasks' : 'task';
   const headingText = `${tasks.length} ${tasksNoun} remaining`;
 
-  const taskList = tasks.map(task => (
-    <Todo 
-      id={task.id} 
-      name={task.name} 
-      completed={task.completed} 
-      key={task.id} 
+
+{/* 
+    NEW WITH FILTERING 
+
+    Array.prototype.filter()
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+    
+      
+*/}
+  const taskList = tasks
+  .filter(FILTER_MAP[filter])
+  .map(task => (
+    <Todo
+      id={task.id}
+      name={task.name}
+      completed={task.completed}
+      key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
       editTask={editTask}
     />
   ));
 
+
+{
+  /* OLD TASK LISt w/o FILTERING
+    const taskList = tasks.map(task => (
+      <Todo 
+        id={task.id} 
+        name={task.name} 
+        completed={task.completed} 
+        key={task.id} 
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
+    ));
+  */
+}
+
+  const filterList = FILTER_NAMES.map(name => (
+    <FilterButton 
+      key={name} 
+      name={name}
+      isPressed={name === filter}
+      setFilter={setFilter}
+      onClick={props.setFilter}
+    />
+  ));
 
 
   // Function used and called by child component(Form) for submitting and 
@@ -45,7 +102,7 @@ function App(props) {
   function addTask(name) {
     // alert(name);
     const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
-    setTasks([...tasks,newTask]);
+    setTasks([newTask,...tasks]);
   }
 
   // check SET tasks
@@ -62,7 +119,7 @@ function App(props) {
       if (id === task.id) {
         // use object spread to make a new object
         // whose `completed` prop has been inverted
-        return {...task, completed: task.completed}
+        return {...task, completed: !task.completed}
       }
       return task;
     });
@@ -99,11 +156,13 @@ function App(props) {
       <Form addTask={ addTask } />
 
       <div className="filters btn-group stack-exception">
-
+      
+        {filterList}
+    {/*
         <FilterButton />
         <FilterButton />
         <FilterButton />
-
+    */}
         { 
             /*
               <button type="button" className="btn toggle-btn" aria-pressed="true">
