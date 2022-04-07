@@ -91,7 +91,7 @@ const viewTemplate = (
         <button
           type="button"
           className="btn btn__danger"
-          onClick={() => props.myFunction()}
+          onClick={() => props.myFunction(props.id)}
         >
           MyFunction <span className="visually-hidden">{props.name}</span>
         </button>

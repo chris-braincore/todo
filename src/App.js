@@ -36,6 +36,8 @@ import Todo from "./components/Todo";
 //MAIN 
 function App(props) {
 
+console.log("App init", props)
+
   // getting state from passed in props (defined on index.js)(DATA)
   const [tasks, setTasks] = useState(props.tasks);
   const [isEditing, setEditing] = useState(false);
@@ -44,6 +46,10 @@ function App(props) {
   const tasksNoun = tasks.length !== 1 ? 'tasks' : 'task';
   const headingText = `${tasks.length} ${tasksNoun} remaining`;
 
+
+function constructor(props){
+ console.log(this.props)
+}
 
 {/* 
     NEW WITH FILTERING 
@@ -141,8 +147,8 @@ function App(props) {
     setTasks(editedTaskList);
   }
 
-  function myFunction(){
-    console.log("Clicked");
+  function myFunction(id){
+    console.log(`Clicked ${id}`);
   }
 
   function deleteTask(id) {
