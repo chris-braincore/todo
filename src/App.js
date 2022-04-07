@@ -64,6 +64,7 @@ function App(props) {
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
       editTask={editTask}
+      myFunction={myFunction}
     />
   ));
 
@@ -140,6 +141,9 @@ function App(props) {
     setTasks(editedTaskList);
   }
 
+  function myFunction(){
+    console.log("Clicked");
+  }
 
   function deleteTask(id) {
     console.log(`removing ${id}`)

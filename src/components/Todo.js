@@ -28,7 +28,7 @@ function handleSubmit(e) {
 const editingTemplate = (
   <form 
         className="stack-small" 
-        onSubmit={handleSubmit}
+        onSubmit={ handleSubmit }
   >
     <div className="form-group">
       <label className="todo-label" htmlFor={props.id}>
@@ -87,6 +87,13 @@ const viewTemplate = (
           onClick={() => props.deleteTask(props.id)}
         >
           Delete <span className="visually-hidden">{props.name}</span>
+        </button>
+        <button
+          type="button"
+          className="btn btn__danger"
+          onClick={() => props.myFunction()}
+        >
+          MyFunction <span className="visually-hidden">{props.name}</span>
         </button>
       </div>
   </div>
